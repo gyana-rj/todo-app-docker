@@ -1,0 +1,50 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.DockerFile
+    ports:
+        - "8080:8080"
+    environment:
+        - DATABASE_URL=postgresql://postgres:postgres@mysecretpassword:5432/postgres
+    depends_on:
+        - postgres
+  
+  frontend:
+    build: 
+      context: .
+      dockerfile: docker/frontend.DockerFile
+      args:
+        - DATABASE_URL=postgresql://postgres:postgres@mysecretpassword:5432/postgres  
+    
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@mysecretpassword:5432/postgres
+    depends_on:
+      - postgres
+  
+  ws:
+    build: 
+      context: .
+      dockerfile: docker/ws/DockerFile
+    
+    ports:
+      - "8081:8081"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@mysecretpassword:5432/postgres
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:var/lib/postgresql/DATABASE_URL
+
+volumes:
+  postgres_data:
+ 
+        

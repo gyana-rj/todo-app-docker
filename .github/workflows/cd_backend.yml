@@ -24,7 +24,9 @@ jobs:
           context: .
           file: ./docker/backend.DockerFile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-backend:${{ github.sha }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-backend:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-backend:latest 
 
           ## Steps to deploy to a VM
 
