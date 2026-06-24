@@ -22,7 +22,7 @@ app.post("/user", async (req, res) => {
 
     if(!username || !password){
         res.status(400).json({
-            message: "Username and password are required"
+            message: "Username and password are required to login"
         })
         return;
     }
