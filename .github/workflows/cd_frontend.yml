@@ -4,6 +4,10 @@ on:
   push:
     branches:
         - main
+    paths:
+        - 'app/web/**'
+        - 'packages/**'
+        - 'docker/frontend.DockerFile'
 
 jobs:
     build:
