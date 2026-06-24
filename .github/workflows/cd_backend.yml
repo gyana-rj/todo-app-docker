@@ -8,6 +8,7 @@ on:
         - 'apps/backend/**'
         - 'packages/**'
         - 'docker/backend.DockerFile'
+        - '.github/workflows/cd_backend.yml'
 
 
 jobs:

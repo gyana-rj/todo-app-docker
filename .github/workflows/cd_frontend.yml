@@ -8,6 +8,7 @@ on:
         - 'app/web/**'
         - 'packages/**'
         - 'docker/frontend.DockerFile'
+        - '.github/workflows/cd_frontend.yml'
 
 jobs:
     build:
