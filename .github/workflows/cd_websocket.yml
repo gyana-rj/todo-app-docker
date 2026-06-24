@@ -27,3 +27,15 @@ jobs:
                    ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-ws:${{ github.sha }}
                    ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-ws:latest
 
+            - name: SSH into VM and deploy
+              uses: appleboy/ssh-action@v1
+              with:
+                host: ${{ secrets.SSH_HOST }} 
+                username: ${{ secrets.SSH_USERNAME }}
+                key: ${{ secrets.SSH_PRIVATE_KEY }}
+                script: |
+                  sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-ws:latest
+                  sudo docker stop ws || true
+                  sudo docker rm ws || true
+                  sudo docker run -d --name ws -p 8081:8081 --restart always -e DATABASE_URL=${{ secrets.DATABASE_URL }} ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-ws:latest
+

@@ -29,6 +29,17 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-backend:latest 
 
           ## Steps to deploy to a VM
+      - name: SSH into VM and Deploy
+        uses: appleboy/ssh-action@v1
+        with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+              sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-backend:latest
+              sudo docker stop backend || true
+              sudo docker rm backend || true
+              sudo docker run -d --name backend -p 8080:8080 --restart always -e DATABASE_URL=${{ secrets.DATABASE_URL }} ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-backend:latest
 
       
 
